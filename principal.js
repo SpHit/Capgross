@@ -70,3 +70,5 @@ var estado_princ = {
 
 capgross.state.add('principal', estado_princ);
 capgross.state.start('principal');
+
+//prueva guardar comentario
