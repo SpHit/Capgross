@@ -41,7 +41,7 @@ var estado_princ = {
 
         pelota.body.gravity.y = 500;
 
-
+        
         
 
         cursor = capgross.input.keyboard.createCursorKeys();
@@ -50,6 +50,7 @@ var estado_princ = {
         
         personaje.body.gravity.y = 1900;
         pelota.body.collideWorldBounds = true;
+        pelota.body.bounce.set(0.7,0.7);
         personaje.body.collideWorldBounds = true;
         puntos1 = 0;
         puntos2 = 0;
