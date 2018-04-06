@@ -12,29 +12,37 @@ var puntos1;
 var puntos2;
 var txtPuntos1;
 var txtPuntos2;
-var capgross = new Phaser.Game(852, 480, Phaser.CANVAS, 'juego');
+var capgross = new Phaser.Game(1074, 724, Phaser.CANVAS, 'juego');
 
 var estado_princ = {
     
     preload: function(){
-        capgross.load.image('fondo', 'img/estadi.jpg');
-        capgross.load.image('jugador1', 'img/pers.png');
-        capgross.load.image('pelota', 'img/bola.png');
+        capgross.load.image('fondo', 'img/campo.png');
+        capgross.load.image('jugador1', 'img/alex.png');
+        capgross.load.image('pelota', 'img/pelota2.png');
     },
     
     create: function(){
-        capgross.add.tileSprite(0, 0, 852, 480, 'fondo');
+        capgross.add.tileSprite(0, 0, 1074, 724, 'fondo');
         personaje = capgross.add.sprite(capgross.width, capgross.height, 'jugador1');
         pelota = capgross.add.sprite(capgross.width/2, capgross.height/2, 'pelota');
 
         pelota.anchor.setTo(0.5,0.5);
-        pelota.scale.setTo(0.5,0.5);
+        pelota.scale.setTo(0.4,0.4);
         personaje.anchor.setTo(1,1);     
         
+        personaje.scale.setTo(0.23,0.23);
+
+
+
+
         capgross.physics.arcade.enable(personaje, pelota);
         capgross.physics.arcade.enable(pelota);
 
         pelota.body.gravity.y = 500;
+
+
+        
 
         cursor = capgross.input.keyboard.createCursorKeys();
         capgross.physics.startSystem(Phaser.Physics.ARCADE);
