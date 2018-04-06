@@ -40,7 +40,7 @@ var estado_princ = {
         capgross.physics.startSystem(Phaser.Physics.ARCADE);
         
         
-        personaje.body.gravity.y = 500;
+        personaje.body.gravity.y = 1900;
         pelota.body.collideWorldBounds = true;
         personaje.body.collideWorldBounds = true;
         puntos1 = 0;
@@ -51,18 +51,18 @@ var estado_princ = {
     
     update: function(){
         if (cursor.right.isDown){
-            personaje.position.x += 2;
+            personaje.position.x += 4;
             puntos1++;
             txtPuntos1.text = puntos1;
         }
         if (cursor.left.isDown){
-            personaje.position.x -= 2;
+            personaje.position.x -= 4;
             puntos2++;
             txtPuntos2.text = puntos2;
         }
-        if (cursor.up.isDown){
-            personaje.position.y -= 10;
-            personaje.position.y += 5;   
+        if (cursor.up.isDown && personaje.body.blocked.down){
+            personaje.body.velocity.y = -600;
+            
         }
         pelota.angle += 1;
     }
