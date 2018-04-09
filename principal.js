@@ -13,40 +13,43 @@ var puntos2;
 var txtPuntos1;
 var txtPuntos2;
 var capgross = new Phaser.Game(852, 480, Phaser.CANVAS, 'juego');
+var fondo;
 
 var estado_princ = {
     
     preload: function(){
         capgross.load.image('fondo', 'img/estadi.jpg');
         capgross.load.image('jugador1', 'img/pers.png');
-        capgross.load.image('pelota', 'img/bola.png');
+        //capgross.load.image('pelota', 'img/bola.png');
+        capgross.load.physics('physicsP1', 'jsons/jordi_json.json');
+        //capgross.load.physics('pelota', 'jsons/pelota.json');
     },
+
+    
+
     
     create: function(){
-        capgross.add.tileSprite(0, 0, 852, 480, 'fondo');
-        personaje = capgross.add.sprite(capgross.width, capgross.height, 'jugador1');
-        pelota = capgross.add.sprite(capgross.width/2, capgross.height/2, 'pelota');
+        //ACTIVAR P2 PHYSICS
+        capgross.physics.startSystem(Phaser.Physics.P2JS);
 
-        pelota.anchor.setTo(0.5,0.5);
-        pelota.scale.setTo(0.5,0.5);
-        personaje.anchor.setTo(1,1);     
+        //ACTIVAR GRAVEDAD 
+        capgross.physics.p2.gravity.y = 1000;
+
+        //Fondo blau
+        capgross.backgroundColor = '#ccddff';
+
+        //AFEGIM EL JUGADOR I LA PILOTA AL CANVAS I EL TITOL
+        personaje = capgross.add.sprite(5, 5 , 'jugador1');
         
-        capgross.physics.arcade.enable(personaje, pelota);
-        capgross.physics.arcade.enable(pelota);
-
-        pelota.body.gravity.y = 500;
+        // Enable physics, use "true" to enable debug drawing
+        capgross.physics.p2.enable([personaje],true);
+        
+        // Get rid of current bounding box
+        personaje.body.clearShapes();
+        
+        personaje.body.loadPolygon("physicsP1", "jugador1");
 
         cursor = capgross.input.keyboard.createCursorKeys();
-        capgross.physics.startSystem(Phaser.Physics.ARCADE);
-        
-        
-        personaje.body.gravity.y = 1900;
-        pelota.body.collideWorldBounds = true;
-        personaje.body.collideWorldBounds = true;
-        puntos1 = 0;
-        puntos2 = 0;
-        txtPuntos1 = capgross.add.text(30, 20, "0", {font:"30px Arial", fill:"black"});
-        txtPuntos2 = capgross.add.text(800, 20, "0", {font:"30px Arial", fill:"black"});
     },
     
     update: function(){
@@ -64,7 +67,7 @@ var estado_princ = {
             personaje.body.velocity.y = -600;
             
         }
-        pelota.angle += 1;
+        //pelota.angle += 1;
     }
 };
 
