@@ -13,6 +13,8 @@ var puntos2;
 var txtPuntos1;
 var txtPuntos2;
 var capgross = new Phaser.Game(1074, 724, Phaser.CANVAS, 'juego');
+var ball_launched;
+var ball_velocity;
 
 var estado_princ = {
     
@@ -22,24 +24,36 @@ var estado_princ = {
         capgross.load.image('pelota', 'img/pelota2.png');
     },
     
+
     create: function(){
         capgross.add.tileSprite(0, 0, 1074, 724, 'fondo');
         personaje = capgross.add.sprite(capgross.width, capgross.height, 'jugador1');
         pelota = capgross.add.sprite(capgross.width/2, capgross.height/2, 'pelota');
+        
+
+        ball = create_ball(capgross.world.centerX,capgross.world.centerY);
+
+
+        capgross.input.onDown.add(launch_ball, this);
+        
+
+
 
         pelota.anchor.setTo(0.5,0.5);
         pelota.scale.setTo(0.4,0.4);
         personaje.anchor.setTo(1,1);     
         
         personaje.scale.setTo(0.23,0.23);
-
+        
+        ball_launched = false;
+        ball_velocity = 400; 
 
 
 
         capgross.physics.arcade.enable(personaje, pelota);
         capgross.physics.arcade.enable(pelota);
 
-        pelota.body.gravity.y = 500;
+        pelota.body.gravity.y = 700;
 
         
         
@@ -50,7 +64,8 @@ var estado_princ = {
         
         personaje.body.gravity.y = 1900;
         pelota.body.collideWorldBounds = true;
-        pelota.body.bounce.set(0.7,0.7);
+        pelota.body.bounce.set();
+
         personaje.body.collideWorldBounds = true;
         puntos1 = 0;
         puntos2 = 0;
@@ -73,9 +88,47 @@ var estado_princ = {
             personaje.body.velocity.y = -600;
             
         }
+
+        capgross.physics.arcade.collide(personaje,ball);
+
+        if(pelota.body.blocked.left){
+            console.log("A TOCADO EL BORDE")
+        }
+        if(pelota.body.blocked.right){
+            console.log("A TOCADO EL derecho")
+        }
+
+
+
+        personaje.body.immovable=true;
+
+
         pelota.angle += 1;
     }
 };
+function create_ball(x,y){
+    var ball = capgross.add.sprite(x,y,'img/pelota2.png');
+    ball.anchor.setTo(0.5,0.5);
+    capgross.physics.arcade.enable(ball);
+    ball.body.collideWorldBounds = true;
+    ball.body.bounce.setTo(0.58,0.58);
+    ball.body.gravity.y = 700;
+    return ball;
+
+}
+function launch_ball(){
+    if(ball_launched){
+        ball.x = capgross.world.centerX;
+        ball.y = capgross.world.centerY;
+        ball.body.velocity.setTo(0,0);
+        ball_launched = false;
+    }else{
+        ball.body.velocity.x = ball_velocity;
+        ball.body.velocity.y = ball_velocity;
+        ball_launched = true;
+        
+    }
+}
 
 capgross.state.add('principal', estado_princ);
 capgross.state.start('principal');
