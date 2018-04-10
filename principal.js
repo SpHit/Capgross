@@ -21,7 +21,7 @@ var estado_princ = {
         capgross.load.image('fondo', 'img/estadi.jpg');
         capgross.load.image('jugador1', 'img/pers.png');
         //capgross.load.image('pelota', 'img/bola.png');
-        capgross.load.physics('physicsP1', 'jsons/jordi_json.json');
+        capgross.load.physics('physicsP1', 'jsons/Jordi.json');
         //capgross.load.physics('pelota', 'jsons/pelota.json');
     },
 
@@ -39,7 +39,7 @@ var estado_princ = {
         capgross.backgroundColor = '#ccddff';
 
         //AFEGIM EL JUGADOR I LA PILOTA AL CANVAS I EL TITOL
-        personaje = capgross.add.sprite(5, 5 , 'jugador1');
+        personaje = capgross.add.sprite(500, 400, 'jugador1');
         
         // Enable physics, use "true" to enable debug drawing
         capgross.physics.p2.enable([personaje],true);
