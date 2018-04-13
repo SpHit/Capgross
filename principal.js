@@ -189,7 +189,7 @@ function create_ball(x,y){
     ball.body.collideWorldBounds = true;
     ball.body.bounce.setTo(0.58,0.58);
     ball.body.gravity.y = 700;
-    ball.scale.setTo(0.4,0.4);
+    ball.scale.setTo(1,1);
     return ball;
 }
 function launch_ball(){
