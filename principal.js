@@ -32,9 +32,9 @@ var estado_princ = {
     
     preload: function(){
         capgross.load.image('fondo', 'img/campo.png');
-        capgross.load.image('jugador1', 'img/EricR.png');
-        capgross.load.image('pelota', 'img/Pelota2.png');
-        capgross.load.image('jugador2', 'img/JordiR.png');
+        capgross.load.image('jugador1', 'img/AlexR.png');
+        capgross.load.image('pelota', 'img/Pelota3.png');
+        capgross.load.image('jugador2', 'img/EricR.png');
     },
     
 
@@ -163,7 +163,7 @@ function create_ball(x,y){
     ball.body.collideWorldBounds = true;
     ball.body.bounce.setTo(0.58,0.58);
     ball.body.gravity.y = 700;
-    ball.scale.setTo(0.4,0.4);
+    ball.scale.setTo(1,1);
     return ball;
 }
 function launch_ball(){
