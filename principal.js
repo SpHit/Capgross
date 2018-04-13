@@ -19,6 +19,14 @@ var txtPuntos2;
 var capgross = new Phaser.Game(1074, 724, Phaser.CANVAS, 'juego');
 var ball_launched;
 var ball_velocity;
+var mando; 
+var salto;
+
+
+//
+var pad1;
+//
+
 
 var estado_princ = {
     
@@ -40,7 +48,15 @@ var estado_princ = {
 
         capgross.input.onDown.add(launch_ball, this);
         
+        //mando 
+        capgross.input.gamepad.start();
 
+        mando = capgross.input.gamepad.pad1;
+
+
+        pelota.anchor.setTo(0.5,0.5);
+        pelota.scale.setTo(0.4,0.4);
+        personaje.anchor.setTo(1,1);     
         
         personaje.anchor.setTo(1);
         personaje.scale.setTo(1,1);
@@ -77,22 +93,40 @@ var estado_princ = {
         puntos2 = 0;
         txtPuntos1 = capgross.add.text(30, 20, "0", {font:"30px Arial", fill:"black"});
         txtPuntos2 = capgross.add.text(800, 20, "0", {font:"30px Arial", fill:"black"});
-    },
     
+    ///
+        capgross.input.gamepad.start();
+    
+        // To listen to buttons from a specific pad listen directly on that pad game.input.gamepad.padX, where X = pad 1-4
+        pad1 = capgross.input.gamepad.pad1;
+    
+        
+    
+    ///
+    },
     update: function(){
-        if (cursor.right.isDown){
+/* celebracion
+if (pad1.isDown(Phaser.Gamepad.XBOX360_A))
+{
+    personaje.angle += 5;
+}
+*/        
+        //Derecha
+        if (cursor.right.isDown || (pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_RIGHT) || pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) > 0.1)){
             personaje.position.x += 4;
             puntos1++;
             txtPuntos1.text = puntos1;
         }
-        if (cursor.left.isDown){
+        //Izqueirda
+        if (cursor.left.isDown || (pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT) || pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -0.1)){
             personaje.position.x -= 4;
             puntos2++;
             txtPuntos2.text = puntos2;
         }
-        if (cursor.up.isDown && personaje.body.blocked.down){
+        //Salto
+        if ((cursor.up.isDown || pad1.isDown(Phaser.Gamepad.XBOX360_X )) && personaje.body.blocked.down){
             personaje.body.velocity.y = -600;
-            
+                      
         }
         if (derecha.isDown){
             personaje2.position.x += 4;
@@ -148,5 +182,6 @@ function launch_ball(){
 
 capgross.state.add('principal', estado_princ);
 capgross.state.start('principal');
+
 
 //prueva guardar comentario
