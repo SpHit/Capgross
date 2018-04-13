@@ -32,7 +32,7 @@ var estado_princ = {
     
     preload: function(){
         capgross.load.image('fondo', 'img/campo.png');
-        capgross.load.image('jugador1', 'img/AlexR.png');
+        capgross.load.image('jugador1', 'img/VictorR.png');
         capgross.load.image('pelota', 'img/Pelota3.png');
         capgross.load.image('jugador2', 'img/EricR.png');
     },
