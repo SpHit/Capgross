@@ -54,8 +54,7 @@ var estado_princ = {
         mando = capgross.input.gamepad.pad1;
 
 
-        pelota.anchor.setTo(0.5,0.5);
-        pelota.scale.setTo(0.4,0.4);
+        
         personaje.anchor.setTo(1,1);     
         
         personaje.anchor.setTo(1);
