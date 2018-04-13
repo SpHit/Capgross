@@ -21,6 +21,7 @@ var ball_launched;
 var ball_velocity;
 var mando; 
 var salto;
+var gol;
 
 
 //
@@ -32,9 +33,12 @@ var estado_princ = {
     
     preload: function(){
         capgross.load.image('fondo', 'img/campo.png');
-        capgross.load.image('jugador1', 'img/EricR.png');
         capgross.load.image('pelota', 'img/Pelota2.png');
+        capgross.load.image('jugador1', 'img/EricR.png');
         capgross.load.image('jugador2', 'img/JordiR.png');
+        capgross.load.image('Miniatura1', 'img/EricR.png');
+        capgross.load.image('Miniatura2', 'img/JordiR.png');
+        capgross.load.image('Marcador', 'img/Marcador.png');
     },
     
 
@@ -88,10 +92,29 @@ var estado_princ = {
         personaje.body.collideWorldBounds = true;
         personaje2.body.collideWorldBounds = true;
 
+        //miniaturas y scoreboard
         puntos1 = 0;
         puntos2 = 0;
-        txtPuntos1 = capgross.add.text(30, 20, "0", {font:"30px Arial", fill:"black"});
-        txtPuntos2 = capgross.add.text(800, 20, "0", {font:"30px Arial", fill:"black"});
+
+        marcador = capgross.add.sprite(340, -50, 'Marcador');
+        marcador.scale.setTo(0.70)
+        miniatura1 = capgross.add.sprite(500, 52, 'Miniatura2');
+        miniatura2 = capgross.add.sprite(615, 52, 'Miniatura1');
+        miniatura1.scale.setTo(-0.35,0.35);
+        miniatura2.scale.setTo(0.35);
+        txtPuntos1 = capgross.add.text(520, 50, "0", {font:"45px Open Sans", fill:"white"});
+        txtPuntos2 = capgross.add.text(580, 50, "0", {font:"45px Open Sans", fill:"white"});
+        txtPuntos1.fontWeight = 'bold';
+        txtPuntos2.fontWeight = 'bold';
+        
+        miniatura1.inputEnabled = true;
+        
+        miniatura1.input.useHandCursor = true;
+        
+
+        
+
+
     
     ///
         capgross.input.gamepad.start();
@@ -113,14 +136,11 @@ if (pad1.isDown(Phaser.Gamepad.XBOX360_A))
         //Derecha
         if (cursor.right.isDown || (pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_RIGHT) || pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) > 0.1)){
             personaje.position.x += 4;
-            puntos1++;
-            txtPuntos1.text = puntos1;
         }
         //Izqueirda
         if (cursor.left.isDown || (pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT) || pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -0.1)){
             personaje.position.x -= 4;
-            puntos2++;
-            txtPuntos2.text = puntos2;
+
         }
         //Salto
         if ((cursor.up.isDown || pad1.isDown(Phaser.Gamepad.XBOX360_X )) && personaje.body.blocked.down){
@@ -143,10 +163,16 @@ if (pad1.isDown(Phaser.Gamepad.XBOX360_A))
         capgross.physics.arcade.collide(personaje2, ball);
         
         if(ball.body.blocked.left){
-            console.log("A TOCADO EL BORDE")
+
+            destroySprite(miniatura1,miniatura2,txtPuntos1,txtPuntos2);
+            puntos2++;
+            txtPuntos2.text = puntos2;
         }
         if(ball.body.blocked.right){
-            console.log("A TOCADO EL derecho")
+
+            destroySprite(miniatura1,miniatura2,txtPuntos1,txtPuntos2);            
+            puntos1++;
+            txtPuntos1.text = puntos1;
         }
 
         ball.angle += 1;
@@ -182,5 +208,28 @@ function launch_ball(){
 capgross.state.add('principal', estado_princ);
 capgross.state.start('principal');
 
+function destroySprite (sprite,sprite1,sprite2,sprite3) {
+    
+        sprite.destroy();
+        sprite1.destroy();
+        sprite2.destroy();
+        sprite3.destroy();
+        gol = capgross.add.text(460, 50, "GOOOL!!!", {font:"45px Open Sans", fill:"white"});
+        capgross.time.events.add(Phaser.Timer.SECOND * 2, SetMarcador, gol);
 
+    }
+
+function SetMarcador() {
+    
+        capgross.add.tween(gol).to( { alpha: 0 }, 1500, Phaser.Easing.Linear.None, true);
+        txtPuntos1 = capgross.add.text(520, 50, puntos1, {font:"45px Open Sans", fill:"white"});
+        txtPuntos2 = capgross.add.text(580, 50, puntos2, {font:"45px Open Sans", fill:"white"});
+        txtPuntos1.fontWeight = 'bold';
+        txtPuntos2.fontWeight = 'bold';
+        miniatura1 = capgross.add.sprite(500, 52, 'Miniatura2');
+        miniatura2 = capgross.add.sprite(615, 52, 'Miniatura1');
+        miniatura1.scale.setTo(-0.35,0.35);
+        miniatura2.scale.setTo(0.35);
+    }
+    
 //prueva guardar comentario
