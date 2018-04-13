@@ -41,12 +41,12 @@
     "jugador1": [
         
         {
-            "density": 2, "friction": 0, "bounce": 0, 
+            "density": 200, "friction": 0, "bounce": 0, 
             "filter": { "categoryBits": 1, "maskBits": 65535 },
             "shape": [   67, 114  ,  48, 114  ,  9, 77  ,  10, 30  ,  25, 8  ,  68, 7  ,  105, 32  ,  112, 85  ]
         } ,
         {
-            "density": 2, "friction": 0, "bounce": 0, 
+            "density": 200, "friction": 0, "bounce": 0, 
             "filter": { "categoryBits": 1, "maskBits": 65535 },
             "shape": [   9, 77  ,  48, 114  ,  19, 97  ]
         }

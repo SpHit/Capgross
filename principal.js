@@ -50,20 +50,21 @@ var estado_princ = {
         personaje.body.loadPolygon("physicsP1", "jugador1");
 
         cursor = capgross.input.keyboard.createCursorKeys();
+
     },
     
     update: function(){
+        personaje.body.rotateLeft(0.0);
+        personaje.body.rotateRight(0.0);
         if (cursor.right.isDown){
-            personaje.position.x += 4;
-            puntos1++;
-            txtPuntos1.text = puntos1;
+            personaje.body.velocity.x = 200;
+            
         }
         if (cursor.left.isDown){
-            personaje.position.x -= 4;
-            puntos2++;
-            txtPuntos2.text = puntos2;
+            personaje.body.velocity.x = -200;
+            
         }
-        if (cursor.up.isDown && personaje.body.blocked.down){
+        if (cursor.up.isDown){
             personaje.body.velocity.y = -600;
             
         }
