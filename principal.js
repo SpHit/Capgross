@@ -56,7 +56,7 @@ var estado_princ = {
         // Get rid of current bounding box
         
 
-        //cursor = capgross.input.keyboard.createCursorKeys();
+        cursor = capgross.input.keyboard.createCursorKeys();
 
     },
 
@@ -66,7 +66,8 @@ var estado_princ = {
 
         personaje2.body.rotateLeft(0.0);
         personaje2.body.rotateRight(0.0);
-        /* if (cursor.right.isDown) {
+        
+        if (cursor.right.isDown) {
             personaje.body.velocity.x = 250;
 
         }
@@ -77,7 +78,7 @@ var estado_princ = {
         if (cursor.up.isDown && capgross.time.now > jumpTimer && checkIfCanJump()) {
             personaje.body.moveUp(600);
             jumpTimer = capgross.time.now + 0;
-        } */
+        }
         //pelota.angle += 1;
     }
 };
