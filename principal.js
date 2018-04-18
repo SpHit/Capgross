@@ -23,6 +23,13 @@ var estado_princ = {
         capgross.load.image('fondo', 'img/estadi.jpg');
         //LOAD JORDI RIGHT AND LEFT
         capgross.load.image('JordiRightIMG', 'img/JordiR.png');
+        capgross.load.image('JordiLeftIMG', 'img/JordiL.png');
+        capgross.load.image('EricRightIMG', 'img/EricR.png');
+        capgross.load.image('EricLeftIMG', 'img/EricL.png');
+        capgross.load.image('VictorRightIMG', 'img/VictorR.png');
+        capgross.load.image('VictorLeftIMG', 'img/VictorL.png');
+        capgross.load.image('AlexRightIMG', 'img/AlexR.png');
+        capgross.load.image('AlexLeftIMG', 'img/AlexL.png');
         capgross.load.physics('physicsRight', 'jsons/PlayerRight.json');
         capgross.load.physics('physicsLeft', 'jsons/PlayerLeft.json');
     },
@@ -47,7 +54,7 @@ var estado_princ = {
         personaje.body.clearShapes();
         personaje.body.loadPolygon("physicsRight", "JordiR");
 
-        personaje2 = capgross.add.sprite(200, 200, 'JordiRightIMG');
+        personaje2 = capgross.add.sprite(200, 200, 'AlexLeftIMG');
         // Enable physics, use "true" to enable debug drawing
         capgross.physics.p2.enable([personaje2], true);
         personaje2.body.clearShapes();
