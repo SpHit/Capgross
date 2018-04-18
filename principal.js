@@ -16,6 +16,8 @@ var txtPuntos2;
 var capgross = new Phaser.Game(852, 480, Phaser.CANVAS, 'juego');
 var fondo;
 var jumpTimer = 0;
+var jumpTimer2 = 0;
+
 
 var estado_princ = {
 
@@ -64,6 +66,10 @@ var estado_princ = {
         
 
         cursor = capgross.input.keyboard.createCursorKeys();
+        derecha = capgross.input.keyboard.addKey(Phaser.Keyboard.D);
+        izquierda = capgross.input.keyboard.addKey(Phaser.Keyboard.A);
+        arriba = capgross.input.keyboard.addKey(Phaser.Keyboard.W);
+        space = capgross.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
     },
 
@@ -85,6 +91,18 @@ var estado_princ = {
         if (cursor.up.isDown && capgross.time.now > jumpTimer && checkIfCanJump()) {
             personaje.body.moveUp(600);
             jumpTimer = capgross.time.now + 0;
+        }
+        if (derecha.isDown) {
+            personaje2.body.velocity.x = 250;
+
+        }
+        if (izquierda.isDown) {
+            personaje2.body.velocity.x = -250;
+
+        }
+        if (arriba.isDown && capgross.time.now > jumpTimer2 && checkIfCanJump2()) {
+            personaje2.body.moveUp(600);
+            jumpTimer2 = capgross.time.now + 0;
         }
         //pelota.angle += 1;
     }
@@ -108,6 +126,25 @@ function checkIfCanJump() {
         if (c.bodyA === personaje.body.data || c.bodyB === personaje.body.data) {
             var d = p2.vec2.dot(c.normalA, yAxis); // Normal dot Y-axis
             if (c.bodyA === personaje.body.data) d *= -1;
+            if (d > 0.5) result = true;
+        }
+    }
+
+    return result;
+
+}
+
+function checkIfCanJump2() {
+
+    var yAxis = p2.vec2.fromValues(0, 1);
+    var result = false;
+
+    for (var i = 0; i < capgross.physics.p2.world.narrowphase.contactEquations.length; i++) {
+        var c = capgross.physics.p2.world.narrowphase.contactEquations[i];
+
+        if (c.bodyA === personaje2.body.data || c.bodyB === personaje2.body.data) {
+            var d = p2.vec2.dot(c.normalA, yAxis); // Normal dot Y-axis
+            if (c.bodyA === personaje2.body.data) d *= -1;
             if (d > 0.5) result = true;
         }
     }
