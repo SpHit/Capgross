@@ -1,0 +1,63 @@
+{ 
+    
+    "victorR": [
+        
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   35, 108  ,  13, 91  ,  7, 72  ,  106, 47  ,  108, 73  ,  87, 107  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   106, 29  ,  106, 47  ,  7, 72  ,  10, 32  ,  29, 12  ,  63, 3  ,  95, 11  ]
+        }
+    ]
+    , 
+    "AlexR": [
+        
+        {
+            "density": 0, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   35, 108  ,  13, 91  ,  7, 72  ,  105, 45  ,  108, 73  ,  87, 107  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   65, 8  ,  95, 12  ,  104, 26  ,  105, 45  ,  7, 72  ,  13, 39  ,  29, 16  ]
+        }
+    ]
+    , 
+    "EricR": [
+        
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   39, 109  ,  16, 91  ,  7, 73  ,  15, 37  ,  34, 20  ,  108, 47  ,  111, 75  ,  86, 109  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   109, 31  ,  108, 47  ,  34, 20  ,  82, 13  ,  100, 16  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   82, 13  ,  34, 20  ,  66, 5  ]
+        }
+    ]
+    , 
+    "JordiR": [
+        
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   40, 108  ,  18, 91  ,  7, 78  ,  15, 32  ,  34, 16  ,  110, 42  ,  113, 73  ,  92, 107  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   110, 42  ,  34, 16  ,  68, 5  ,  97, 12  ,  109, 24  ]
+        }
+    ]
+}
