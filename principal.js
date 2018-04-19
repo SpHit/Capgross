@@ -1,3 +1,4 @@
+
 /*
 anchor = punto de apoyo
 scale = escalar imagen (x, y)
@@ -17,12 +18,12 @@ var puntos2;
 var txtPuntos1;
 var txtPuntos2;
 var capgross = new Phaser.Game(1074, 724, Phaser.CANVAS, 'juego');
+var ball_launched;
+var ball_velocity;
 var mando; 
 var salto;
 var gol;
 var sePuedeMarcar = true;
-var jumpTimer = 0;
-var jumpTimer2 = 0;
 
 
 //
@@ -33,103 +34,82 @@ var pad1;
 var estado_princ = {
     
     preload: function(){
-        //CAMPO
         capgross.load.image('fondo', 'img/campo.png');
-        //BOLA
         capgross.load.image('pelota', 'img/Pelota3.png');
-        //MINIATURAS Y MARCADOR
+        capgross.load.image('jugador1', 'img/EricR.png');
+        capgross.load.image('jugador2', 'img/JordiR.png');
         capgross.load.image('Miniatura1', 'img/EricR.png');
         capgross.load.image('Miniatura2', 'img/JordiR.png');
         capgross.load.image('Marcador', 'img/Marcador.png');
+        capgross.load.image('Botin', 'img/botinBasic.png');
         capgross.load.image('Largero', 'img/Largero.png');
-        //PJ
-        capgross.load.image('JordiRightIMG', 'img/JordiR.png');
-        capgross.load.image('JordiLeftIMG', 'img/JordiL.png');
-        capgross.load.image('EricRightIMG', 'img/EricR.png');
-        capgross.load.image('EricLeftIMG', 'img/EricL.png');
-        capgross.load.image('VictorRightIMG', 'img/VictorR.png');
-        capgross.load.image('VictorLeftIMG', 'img/VictorL.png');
-        capgross.load.image('AlexRightIMG', 'img/AlexR.png');
-        capgross.load.image('AlexLeftIMG', 'img/AlexL.png');
-
-        //LOAD PHYSICS P2
-        capgross.load.physics('physicsRight', 'jsons/PlayerRight.json');
-        capgross.load.physics('physicsLeft', 'jsons/PlayerLeft.json');
-        capgross.load.physics('ballPhysycs', 'jsons/tolerancia1.json');
-
     },
     
 
     create: function(){
-
-        //ACTIVAR P2 PHYSICS
-        capgross.physics.startSystem(Phaser.Physics.P2JS);
-        //ACTIVAR GRAVEDAD 
-        capgross.physics.p2.gravity.y = 1400;
-        
-        //BACKGROUND
         capgross.add.tileSprite(0, 0, 1074, 724, 'fondo');
-
-        //AFEGIM EL JUGADOR 1
-        personaje = capgross.add.sprite(500, 400, 'JordiRightIMG');
-        // Enable physics, use "true" to enable debug drawing
-        capgross.physics.p2.enable([personaje], false);
-        personaje.body.clearShapes();
-        personaje.body.loadPolygon("physicsRight", "JordiR");
-        personaje.body.fixedRotation = true;
-
-        //AFEGIM EL JUGADOR 2
-        personaje2 = capgross.add.sprite(200, 200, 'AlexLeftIMG');
-        // Enable physics, use "true" to enable debug drawing
-        capgross.physics.p2.enable([personaje2], false);
-        personaje2.body.clearShapes();
-        personaje2.body.loadPolygon("physicsLeft", "JordiR");
-        personaje2.body.fixedRotation = true;
-
-        //AFEGIM PILOTA
-        bola = capgross.add.sprite(10,300,'pelota');
-        capgross.physics.p2.enable([bola], true);
-        bola.body.clearShapes();
-        bola.body.setCircle(21);
-        bola.body.data.gravityScale = 0.3;
-
-        //TRY
-        // capgross.physics.startSystem(Phaser.Physics.ARCADE);
-        // capgross.physics.arcade.enable(bola);
-        // bola.body.collideWorldBounds = true;
-        // bola.body.bounce.setTo(0.58,0.58);
-        // bola.body.gravity.y = 700;
-        
-
-        //PARA QUE LA PELOTA BOTE
-        var spriteMaterial = capgross.physics.p2.createMaterial('spriteMaterial');
-        var worldMaterial = capgross.physics.p2.createMaterial('worldMaterial');
-        var contactMaterial = capgross.physics.p2.createContactMaterial(spriteMaterial, worldMaterial, { restitution: 1.0 });
-        capgross.physics.p2.setWorldMaterial(worldMaterial);
-        bola.body.setMaterial(spriteMaterial);
-
-        //AFEGIM LARGUEROS
+        personaje = capgross.add.sprite(capgross.width, capgross.height, 'jugador1');
+        personaje2 = capgross.add.sprite(capgross.width/2, capgross.height/2, 'jugador2');
+        botin = capgross.add.sprite(capgross.width-100, capgross.height-50,'Botin');
         largero = capgross.add.sprite(capgross.width, capgross.height/2 +150,'Largero');
         largero2 = capgross.add.sprite(0, capgross.height/2 +150,'Largero');
+        
+        
         largero.scale.setTo(-0.35,0.25);
         largero2.scale.setTo(0.25);
-
-        capgross.physics.arcade.collide(largero, bola);
-        capgross.physics.arcade.collide(largero2, bola);
-
-        //CURSOR 
-        cursor = capgross.input.keyboard.createCursorKeys();
-        derecha = capgross.input.keyboard.addKey(Phaser.Keyboard.D);
-        izquierda = capgross.input.keyboard.addKey(Phaser.Keyboard.A);
-        arriba = capgross.input.keyboard.addKey(Phaser.Keyboard.W);
-        space = capgross.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-
         
+        botin.angle = 25;
+
+        ball = create_ball(capgross.world.centerX,capgross.world.centerY);
+
+
+        capgross.input.onDown.add(launch_ball, this);
         
         //mando 
         capgross.input.gamepad.start();
 
         mando = capgross.input.gamepad.pad1;
+
+
+        
+        personaje.anchor.setTo(1,1);     
+        
+        personaje.anchor.setTo(1);
+        personaje.scale.setTo(1,1);
+        personaje2.anchor.setTo(-2.07);
+        personaje2.scale.setTo(-1, 1);
+        
+        ball_launched = false;
+        ball_velocity = 400; 
+
+
+        
+        capgross.physics.arcade.enable(personaje, ball);
+        capgross.physics.arcade.enable(personaje2, ball);
+        capgross.physics.arcade.enable(botin, ball);
+        capgross.physics.arcade.enable(botin, personaje2);
+
+
+        cursor = capgross.input.keyboard.createCursorKeys();
+        derecha = capgross.input.keyboard.addKey(Phaser.Keyboard.D);
+        izquierda = capgross.input.keyboard.addKey(Phaser.Keyboard.A);
+        arriba = capgross.input.keyboard.addKey(Phaser.Keyboard.W);
+        space = capgross.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        
+        capgross.physics.startSystem(Phaser.Physics.ARCADE);
+        
+        
+        personaje.body.gravity.y = 1900;
+        personaje2.body.gravity.y = 1900;   
+        botin.body.gravity.y = 1900;
+   
+
+        personaje.body.collideWorldBounds = true;
+        personaje2.body.collideWorldBounds = true;
+        botin.body.collideWorldBounds = true;
+
+
+
 
 
         //miniaturas y scoreboard
@@ -151,73 +131,115 @@ var estado_princ = {
         
         miniatura1.input.useHandCursor = true;
         
+
+        
+
+
+    
     ///
         capgross.input.gamepad.start();
     
         // To listen to buttons from a specific pad listen directly on that pad game.input.gamepad.padX, where X = pad 1-4
         pad1 = capgross.input.gamepad.pad1;
-
-        personaje.body.immovable = true; 
+    
+        
     
     ///
     },
-    update: function(){ 
-        //Izqueirda
-        if (cursor.left.isDown || (pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT) || pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -0.1)){
-            personaje.body.velocity.x = -250;
-        }else{personaje.body.velocity.x = 7;}
+    update: function(){
+        console.log(botin.body.velocity.y)
+        //Chute
+        if (space.isDown && botin.angle <= 135)
+        {
+            botin.angle += 5;
+        }else if (space.isUp && botin.angle >= 25)
+        {
+            botin.angle -= 5;
+        }
+        
         //Derecha
         if (cursor.right.isDown || (pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_RIGHT) || pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) > 0.1)){
-            personaje.body.velocity.x = 250;
+            personaje.position.x += 4;
+            botin.position.x += 4;
+        }
+        //Izqueirda
+        if (cursor.left.isDown || (pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT) || pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -0.1)){
+            personaje.position.x -= 4;
+            botin.position.x -= 4;
         }
         //Salto
-        if ((cursor.up.isDown || pad1.isDown(Phaser.Gamepad.XBOX360_X )) && capgross.time.now > jumpTimer && checkIfCanJump()){
-            personaje.body.moveUp(600);
-            jumpTimer = capgross.time.now + 0; 
+        if ((cursor.up.isDown || pad1.isDown(Phaser.Gamepad.XBOX360_X )) && personaje.body.blocked.down){
+            personaje.body.velocity.y = -600;
+            botin.body.velocity.y = -600;       
         }
         if (derecha.isDown){
-            personaje2.body.velocity.x = 250;
-            
-        }else{personaje2.body.velocity.x = -7;}
-        if (izquierda.isDown){
-            personaje2.body.velocity.x = -250;
+            personaje2.position.x += 4;
             
         }
-        if (arriba.isDown && capgross.time.now > jumpTimer2 && checkIfCanJump2()){
-            personaje2.body.moveUp(600);
-            jumpTimer2 = capgross.time.now + 0;
+        if (izquierda.isDown){
+            personaje2.position.x -= 4;
+            
+        }
+        if (arriba.isDown && personaje2.body.blocked.down){
+            personaje2.body.velocity.y = -600;
             
         }
         
-        // if(bola.body.blocked.left && sePuedeMarcar && bola.body.position.y > capgross.height/2 +150 ){
 
-        //     destroySprite(miniatura1,miniatura2,txtPuntos1,txtPuntos2);
-        //     puntos2++;
-        //     txtPuntos2.text = puntos2;
-        // }
-        // if(bola.body.blocked.right && sePuedeMarcar && bola.body.position.y > capgross.height/2 +150){
+        /*console.log(botin.position.x +" " + ball.position.x);
+        if(botin.position.x < ball.position.x || botin.position.x+15 > ball.position.x){
+            ball.position.x -=5;
+        }*/
 
-        //     destroySprite(miniatura1,miniatura2,txtPuntos1,txtPuntos2);            
-        //     puntos1++;
-        //     txtPuntos1.text = puntos1;
-        // }
-        if(bola.position.y > 400 && bola.position.x >= 1054){
+
+        capgross.physics.arcade.collide(personaje, personaje2);
+        capgross.physics.arcade.collide(personaje, ball);
+        capgross.physics.arcade.collide(personaje2, ball);
+        capgross.physics.arcade.collide(botin, ball);
+        capgross.physics.arcade.collide(largero, ball);
+        capgross.physics.arcade.collide(largero2, ball);
+        
+        if(ball.body.blocked.left && sePuedeMarcar && ball.body.position.y > capgross.height/2 +150 ){
+
+            destroySprite(miniatura1,miniatura2,txtPuntos1,txtPuntos2);
+            puntos2++;
+            txtPuntos2.text = puntos2;
+        }
+        if(ball.body.blocked.right && sePuedeMarcar && ball.body.position.y > capgross.height/2 +150){
+
+            destroySprite(miniatura1,miniatura2,txtPuntos1,txtPuntos2);            
             puntos1++;
             txtPuntos1.text = puntos1;
         }
 
-        else if(bola.position.y > 400 && bola.position.x <= 20){
-            puntos2++;
-            txtPuntos2.text = puntos2;
-        }
-
+        ball.angle += 1;
         
-
+        botin.body.immovable=true;
         personaje.body.immovable=true;
         personaje2.body.immovable=true;
 
     }
 };
+function create_ball(x,y){
+    var ball = capgross.add.sprite(x,y,'pelota');
+    ball.anchor.setTo(0.5,0.5);
+    capgross.physics.arcade.enable(ball);
+    ball.body.collideWorldBounds = true;
+    ball.body.bounce.setTo(0.58,0.58);
+    ball.body.gravity.y = 700;
+    ball.scale.setTo(1,1);
+    return ball;
+}
+function launch_ball(){
+    if(ball_launched){
+        ball.body.velocity.setTo(0,0);
+        ball_launched = false;
+    }else{
+        ball.body.velocity.x = ball_velocity;
+        ball.body.velocity.y = ball_velocity;
+        ball_launched = true;
+    }
+}
 
 capgross.state.add('principal', estado_princ);
 capgross.state.start('principal');
@@ -243,47 +265,7 @@ function SetMarcador() {
         miniatura2 = capgross.add.sprite(615, 52, 'Miniatura1');
         miniatura1.scale.setTo(-0.35,0.35);
         miniatura2.scale.setTo(0.35);
-        bola.position.x = capgross.world.centerX;
-        bola.position.y = capgross.world.centerY;
+        ball.position.x = capgross.world.centerX;
+        ball.position.y = capgross.world.centerY;
         sePuedeMarcar = true;
-    }
-    
-//SE PUEDE SALTAR??
-
-function checkIfCanJump() {
-
-    var yAxis = p2.vec2.fromValues(0, 1);
-    var result = false;
-
-    for (var i = 0; i < capgross.physics.p2.world.narrowphase.contactEquations.length; i++) {
-        var c = capgross.physics.p2.world.narrowphase.contactEquations[i];
-
-        if (c.bodyA === personaje.body.data || c.bodyB === personaje.body.data) {
-            var d = p2.vec2.dot(c.normalA, yAxis); // Normal dot Y-axis
-            if (c.bodyA === personaje.body.data) d *= -1;
-            if (d > 0.5) result = true;
-        }
-    }
-
-    return result;
-
-}
-
-function checkIfCanJump2() {
-
-    var yAxis = p2.vec2.fromValues(0, 1);
-    var result = false;
-
-    for (var i = 0; i < capgross.physics.p2.world.narrowphase.contactEquations.length; i++) {
-        var c = capgross.physics.p2.world.narrowphase.contactEquations[i];
-
-        if (c.bodyA === personaje2.body.data || c.bodyB === personaje2.body.data) {
-            var d = p2.vec2.dot(c.normalA, yAxis); // Normal dot Y-axis
-            if (c.bodyA === personaje2.body.data) d *= -1;
-            if (d > 0.5) result = true;
-        }
-    }
-
-    return result;
-
 }
