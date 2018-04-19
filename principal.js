@@ -22,8 +22,9 @@ var jumpTimer2 = 0;
 var estado_princ = {
 
     preload: function () {
+        //LOAD IMAGES
         capgross.load.image('fondo', 'img/estadi.jpg');
-        //LOAD JORDI RIGHT AND LEFT
+        capgross.load.image('pelota', 'img/Pelota3.png')
         capgross.load.image('JordiRightIMG', 'img/JordiR.png');
         capgross.load.image('JordiLeftIMG', 'img/JordiL.png');
         capgross.load.image('EricRightIMG', 'img/EricR.png');
@@ -32,8 +33,11 @@ var estado_princ = {
         capgross.load.image('VictorLeftIMG', 'img/VictorL.png');
         capgross.load.image('AlexRightIMG', 'img/AlexR.png');
         capgross.load.image('AlexLeftIMG', 'img/AlexL.png');
+        //LOAD PHYSICS P2
         capgross.load.physics('physicsRight', 'jsons/PlayerRight.json');
         capgross.load.physics('physicsLeft', 'jsons/PlayerLeft.json');
+        capgross.load.physics('ballPhysycs', 'jsons/tolerancia1.json');
+
     },
 
 
@@ -49,18 +53,26 @@ var estado_princ = {
         //Fondo blau
         capgross.backgroundColor = '#ffffff';
 
-        //AFEGIM EL JUGADOR 
+        //AFEGIM EL JUGADOR 1
         personaje = capgross.add.sprite(500, 400, 'JordiRightIMG');
         // Enable physics, use "true" to enable debug drawing
         capgross.physics.p2.enable([personaje], false);
         personaje.body.clearShapes();
         personaje.body.loadPolygon("physicsRight", "JordiR");
 
+        //AFEGIM EL JUGADOR 2
         personaje2 = capgross.add.sprite(200, 200, 'AlexLeftIMG');
         // Enable physics, use "true" to enable debug drawing
         capgross.physics.p2.enable([personaje2], false);
         personaje2.body.clearShapes();
         personaje2.body.loadPolygon("physicsLeft", "JordiR");
+
+        //AFEGIM PILOTA
+        bola = capgross.add.sprite(10,300,'pelota');
+        capgross.physics.p2.enable([bola], true);
+        personaje2.body.clearShapes();
+        personaje2.body.loadPolygon("ballPhysics", "Pelota3");
+
 
         // Get rid of current bounding box
         
