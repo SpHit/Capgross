@@ -47,18 +47,18 @@ var estado_princ = {
         capgross.physics.p2.gravity.y = 1500;
 
         //Fondo blau
-        capgross.backgroundColor = '#000000';
+        capgross.backgroundColor = '#ffffff';
 
         //AFEGIM EL JUGADOR 
         personaje = capgross.add.sprite(500, 400, 'JordiRightIMG');
         // Enable physics, use "true" to enable debug drawing
-        capgross.physics.p2.enable([personaje], true);
+        capgross.physics.p2.enable([personaje], false);
         personaje.body.clearShapes();
         personaje.body.loadPolygon("physicsRight", "JordiR");
 
         personaje2 = capgross.add.sprite(200, 200, 'AlexLeftIMG');
         // Enable physics, use "true" to enable debug drawing
-        capgross.physics.p2.enable([personaje2], true);
+        capgross.physics.p2.enable([personaje2], false);
         personaje2.body.clearShapes();
         personaje2.body.loadPolygon("physicsLeft", "JordiR");
 
