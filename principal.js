@@ -33,6 +33,7 @@ var estado_princ = {
         capgross.load.image('VictorLeftIMG', 'img/VictorL.png');
         capgross.load.image('AlexRightIMG', 'img/AlexR.png');
         capgross.load.image('AlexLeftIMG', 'img/AlexL.png');
+        
         //LOAD PHYSICS P2
         capgross.load.physics('physicsRight', 'jsons/PlayerRight.json');
         capgross.load.physics('physicsLeft', 'jsons/PlayerLeft.json');
@@ -48,10 +49,10 @@ var estado_princ = {
         capgross.physics.startSystem(Phaser.Physics.P2JS);
 
         //ACTIVAR GRAVEDAD 
-        capgross.physics.p2.gravity.y = 1500;
+        capgross.physics.p2.gravity.y = 1400;
 
         //Fondo blau
-        capgross.backgroundColor = '#ffffff';
+        capgross.stage.backgroundColor = '#124184';
 
         //AFEGIM EL JUGADOR 1
         personaje = capgross.add.sprite(500, 400, 'JordiRightIMG');
@@ -59,6 +60,7 @@ var estado_princ = {
         capgross.physics.p2.enable([personaje], false);
         personaje.body.clearShapes();
         personaje.body.loadPolygon("physicsRight", "JordiR");
+        personaje.body.fixedRotation = true;
 
         //AFEGIM EL JUGADOR 2
         personaje2 = capgross.add.sprite(200, 200, 'AlexLeftIMG');
@@ -66,13 +68,22 @@ var estado_princ = {
         capgross.physics.p2.enable([personaje2], false);
         personaje2.body.clearShapes();
         personaje2.body.loadPolygon("physicsLeft", "JordiR");
+        personaje2.body.fixedRotation = true;
 
         //AFEGIM PILOTA
         bola = capgross.add.sprite(10,300,'pelota');
         capgross.physics.p2.enable([bola], true);
-        personaje2.body.clearShapes();
-        personaje2.body.loadPolygon("ballPhysics", "Pelota3");
+        bola.body.clearShapes();
+        bola.body.setCircle(21);
+        bola.body.data.gravityScale = 0.3;
 
+        var spriteMaterial = capgross.physics.p2.createMaterial('spriteMaterial');
+        var worldMaterial = capgross.physics.p2.createMaterial('worldMaterial');
+        var contactMaterial = capgross.physics.p2.createContactMaterial(spriteMaterial, worldMaterial, { restitution: 1.0 });
+
+        capgross.physics.p2.setWorldMaterial(worldMaterial);
+
+        bola.body.setMaterial(spriteMaterial);
 
         // Get rid of current bounding box
         
