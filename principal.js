@@ -71,27 +71,28 @@ var estado_princ = {
         capgross.add.tileSprite(0, 0, 1074, 724, 'fondo');
 
         //AFEGIM EL JUGADOR 1
-        personaje = capgross.add.sprite(500, 400, 'JordiRightIMG');
+        personaje = capgross.add.sprite(1074/1.25 , 700, 'EricRightIMG');
         // Enable physics, use "true" to enable debug drawing
-        capgross.physics.p2.enable([personaje], false);
+        capgross.physics.p2.enable([personaje], true);
         personaje.body.clearShapes();
         personaje.body.loadPolygon("physicsRight", "JordiR");
         personaje.body.fixedRotation = true;
 
         //AFEGIM EL JUGADOR 2
-        personaje2 = capgross.add.sprite(200, 200, 'AlexLeftIMG');
+        personaje2 = capgross.add.sprite(1074/5, 700, 'JordiLeftIMG');
         // Enable physics, use "true" to enable debug drawing
-        capgross.physics.p2.enable([personaje2], false);
+        capgross.physics.p2.enable([personaje2], true);
         personaje2.body.clearShapes();
         personaje2.body.loadPolygon("physicsLeft", "JordiR");
         personaje2.body.fixedRotation = true;
 
         //AFEGIM PILOTA
-        bola = capgross.add.sprite(10,300,'pelota');
+        bola = capgross.add.sprite(1074/2,300,'pelota');
         capgross.physics.p2.enable([bola], true);
         bola.body.clearShapes();
         bola.body.setCircle(21);
         bola.body.data.gravityScale = 0.3;
+        bola.body.setMaterial(spriteMaterial);
 
         //TRY
         // capgross.physics.startSystem(Phaser.Physics.ARCADE);
@@ -162,6 +163,7 @@ var estado_princ = {
     ///
     },
     update: function(){ 
+        
         //Izqueirda
         if (cursor.left.isDown || (pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT) || pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -0.1)){
             personaje.body.velocity.x = -250;
@@ -189,28 +191,28 @@ var estado_princ = {
             
         }
         
-        // if(bola.body.blocked.left && sePuedeMarcar && bola.body.position.y > capgross.height/2 +150 ){
+         if( bola.position.x >= 1053 && sePuedeMarcar && bola.position.y > capgross.height/2 +150 ){
 
-        //     destroySprite(miniatura1,miniatura2,txtPuntos1,txtPuntos2);
-        //     puntos2++;
-        //     txtPuntos2.text = puntos2;
-        // }
-        // if(bola.body.blocked.right && sePuedeMarcar && bola.body.position.y > capgross.height/2 +150){
+             destroySprite(miniatura1,miniatura2,txtPuntos1,txtPuntos2);
+             puntos1++;
+             txtPuntos2.text = puntos2;
+         }
+         if(bola.position.x <= 21 && sePuedeMarcar && bola.position.y > capgross.height/2 +150){
 
-        //     destroySprite(miniatura1,miniatura2,txtPuntos1,txtPuntos2);            
-        //     puntos1++;
-        //     txtPuntos1.text = puntos1;
-        // }
-        if(bola.position.y > 400 && bola.position.x >= 1054){
+             destroySprite(miniatura1,miniatura2,txtPuntos1,txtPuntos2);            
+             puntos2++;
+             txtPuntos1.text = puntos1;
+         }
+       /* if(bola.position.y > (capgross.height/2 +150) && bola.position.x >= 1053){
             puntos1++;
             txtPuntos1.text = puntos1;
         }
 
-        else if(bola.position.y > 400 && bola.position.x <= 20){
+        else if(bola.position.y > (capgross.height/2 +150) && bola.position.x <= 21){
             puntos2++;
             txtPuntos2.text = puntos2;
         }
-
+*/
         
 
         personaje.body.immovable=true;
@@ -243,9 +245,16 @@ function SetMarcador() {
         miniatura2 = capgross.add.sprite(615, 52, 'Miniatura1');
         miniatura1.scale.setTo(-0.35,0.35);
         miniatura2.scale.setTo(0.35);
-        bola.position.x = capgross.world.centerX;
-        bola.position.y = capgross.world.centerY;
+        bola.destroy();
         sePuedeMarcar = true;
+        
+        //AFEGIM PILOTA
+        bola = capgross.add.sprite(1074/2,300,'pelota');
+        capgross.physics.p2.enable([bola], true);
+        bola.body.clearShapes();
+        bola.body.setCircle(21);
+        bola.body.data.gravityScale = 0.3;
+        
     }
     
 //SE PUEDE SALTAR??
