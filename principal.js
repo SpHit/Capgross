@@ -1,10 +1,254 @@
-/*
-anchor = punto de apoyo
-scale = escalar imagen (x, y)
-angle = angulo de la imagen (x, y)
-spritesheet = animacion
-frame = elige img en concreto
-*/
+
+//VICTOR
+var p1 = "";
+var jp2 = "";
+var miniatura1;
+var miniatura2;
+
+var Menu = {
+    preload: function() {
+        capgross.load.image('background','img/campo.png');
+        capgross.load.image('jugar','img/Buttons/Jugar.png');
+        capgross.load.image('creditos','img/Buttons/Creditos.png');
+        capgross.load.image('controles','img/Buttons/Controles.png');
+        capgross.load.image('logo','img/logo.png');
+    },
+
+    create: function() {
+        capgross.background = this.game.add.sprite(0,0,'background');
+       
+        var logo = capgross.add.image(250,
+            20,'logo');
+
+        var start = this.add.button(560,
+            260,'jugar',this.iniciarcapgross,this);
+            start.anchor.setTo(0.5);
+        
+        var jugar = this.add.button(560,
+            410,'controles',this.ComoJugar,this);
+            jugar.anchor.setTo(0.5);
+
+        var creditos = this.add.button(560,
+            550,'creditos',this.Creditoscapgross,this);
+            creditos.anchor.setTo(0.5);
+    },
+
+    iniciarcapgross: function() {
+        this.state.start('Seleccion');
+    },
+
+    Creditoscapgross: function() {
+        this.state.start('Creditos');
+    },
+
+    ComoJugar: function() {
+        this.state.start('Ayuda');
+    }
+
+};
+
+var Seleccion = {
+    preload: function() {
+        capgross.load.image('background','img/campo.png');
+        capgross.load.image('Alex','img/Jugadores/Alex.png');
+        capgross.load.image('Jordi','img/Jugadores/Jordi.png');
+        capgross.load.image('Eric','img/Jugadores/Eric.png');
+        capgross.load.image('Victor','img/Jugadores/Victor.png');
+        capgross.load.image('salir','img/salir.png');
+        capgross.load.image('cruz','img/Buttons/cruz.png');
+        capgross.load.image('p1','img/P1.png');
+        capgross.load.image('ban1','img/P1BAN.png');
+        capgross.load.image('ban2','img/P2BAN.png');
+        capgross.load.image('play','img/PelotaPlay.png');
+
+
+    },
+
+    create: function() {
+       
+        capgross.background = this.game.add.sprite(0,0,'background');
+
+        var ban1 = capgross.add.image(250,190,'ban1');
+        var ban2 = capgross.add.image(250,290,'ban2');
+
+        var alex = capgross.add.button(70,450,'Alex',this.Jugador,this);
+        alex.scale.setTo(0.35,0.35);
+        alex.text = 'Alex';
+
+        var eric = capgross.add.button(320,450,'Eric',this.Jugador,this);
+        eric.scale.setTo(0.35,0.35);
+        eric.text = 'Eric';
+        
+        var victor = capgross.add.button(570,450,'Victor',this.Jugador,this);
+        victor.scale.setTo(0.35,0.35);
+        victor.text = 'Victor';
+
+        var jordi = capgross.add.button(840,450,'Jordi',this.Jugador,this);
+        jordi.scale.setTo(0.35,0.35);
+        jordi.text = 'Jordi';
+
+
+        var salir = capgross.add.button(15,15,'salir',this.Salir,this);
+        salir.scale.setTo(0.10,0.10);
+
+        var playp = capgross.add.button(800,175,'play',this.Pelota,this);
+        playp.scale.setTo(0.30,0.30);
+
+        capgross.add.text(320,50,"Seleccionar Jugador",{
+            font: 'Arial',
+            fontSize: 50,
+            fill: 'red'
+        });
+    },
+
+    Jugador: function(jugador) {        
+            if (jugador.text == 'Jordi') {
+               if (p1 == "") {
+                p1 = "Jordi";
+               } else if (jp2 == "") {
+                jp2 = "Jordi";
+               }
+
+            } else if (jugador.text == 'Victor') {
+                if (p1 == "") {
+                    p1 = "Victor";
+                   } else if (jp2 == "") {
+                    jp2 = "Victor";
+                   } 
+
+            } else if (jugador.text == 'Eric') {
+                if (p1 == "") {
+                    p1 = "Eric";
+                   } else if (jp2 == "") {
+                    jp2 = "Eric";
+                   } 
+
+            } else if (jugador.text == 'Alex') {
+                if (p1 == "") {
+                    p1 = "Alex";
+                   } else if (jp2 == "") {
+                    jp2 = "Alex";
+                   } 
+            }
+
+            
+
+            capgross.add.text(475,197,p1,{
+                font: 'Open Sans',
+                fontSize: 45,
+                fill: 'black',
+                fontWeight: 'bold'
+            });
+
+            capgross.add.text(475,296,jp2,{
+                font: 'Open Sans',
+                fontSize: 45,
+                fill: 'white',
+                fontWeight: 'bold'
+            });
+    },
+
+    Salir: function() {
+        this.state.start('Menu');
+        p1 = "";
+        jp2 = "";
+    },
+
+    Pelota: function() {
+        if (p1 == "" || jp2 == "") {
+           
+        } else {
+            this.state.start('estado_princ');
+        }
+    }
+}
+
+var Creditos = {
+    preload: function() {
+        capgross.load.image('salir','img/salir.png');
+        capgross.load.image('background','img/campo.png');
+        capgross.load.image('credito','img/Creditos/creditoG.png');
+
+        capgross.load.image('Alex','img/Jugadores/Alex.png');
+        capgross.load.image('Jordi','img/Jugadores/Jordi.png');
+        capgross.load.image('Eric','img/Jugadores/Eric.png');
+        capgross.load.image('Victor','img/Jugadores/Victor.png');
+
+    },
+
+    create: function(){
+        capgross.background = this.game.add.sprite(0,0,'background');
+        var salir = capgross.add.button(15,15,'salir',this.Salir,this);
+        salir.scale.setTo(0.10,0.10);
+
+        var credito = capgross.add.image(580,
+            20,'credito');
+        credito.scale.setTo(0.45,0.45);
+        
+        var j1 = capgross.add.image(70,
+            180,'Alex');
+        j1.scale.setTo(0.40,0.40);
+
+        var j2 = capgross.add.image(325,
+            180,'Jordi');
+        j2.scale.setTo(0.40,0.40);
+
+        var j3 = capgross.add.image(70,
+            450,'Eric');
+        j3.scale.setTo(0.40,0.40);
+
+        var j4 = capgross.add.image(325,
+            450,'Victor');
+        j4.scale.setTo(0.40,0.40);
+
+
+    },
+
+    Salir: function() {
+        this.state.start('Menu');
+    }
+}
+    
+    var Ayuda = {
+        preload: function() {
+            capgross.load.image('salir','img/salir.png');
+            capgross.load.image('background','img/campo.png');
+            capgross.load.image('credito','img/Creditos/creditoG.png');
+            capgross.load.image('titulo','img/Buttons/TituloControles.png');
+            capgross.load.image('p1c','img/P1_controles.png');
+            capgross.load.image('p2c','img/P2_controles.png');
+
+            capgross.load.image('asdf','img/asdf.png');
+            capgross.load.image('flechas','img/flechas.png');
+    
+        },
+        
+    
+        create: function(){
+            capgross.background = this.game.add.sprite(0,0,'background');
+            var salir = capgross.add.button(15,15,'salir',this.Salir,this);
+            salir.scale.setTo(0.10,0.10);
+
+            var titulo = capgross.add.image(395,70,'titulo');
+            
+            var p1c = capgross.add.image(120,180,'p1c');
+           
+            var p2c = capgross.add.image(560,180,'p2c');
+
+            var asdf = capgross.add.image(170,
+                300,'asdf');
+            asdf.scale.setTo(1.20,1.20);
+
+            var flechas = capgross.add.image(600,
+                300,'flechas');
+                flechas.scale.setTo(1.20,1.20);
+        },
+    
+        Salir: function() {
+            this.state.start('Menu');
+        }
+    }
+//JRODI
 var personaje;
 var personaje2;
 var pelota;
@@ -16,7 +260,6 @@ var puntos1;
 var puntos2;
 var txtPuntos1;
 var txtPuntos2;
-var capgross = new Phaser.Game(1074, 724, Phaser.CANVAS, 'juego');
 var mando; 
 var salto;
 var gol;
@@ -33,6 +276,8 @@ var pad1;
 var estado_princ = {
     
     preload: function(){
+        //SALIR
+        capgross.load.image('salir','img/salir.png');
         //CAMPO
         capgross.load.image('fondo', 'img/campo.png');
         //BOLA
@@ -40,6 +285,8 @@ var estado_princ = {
         //MINIATURAS Y MARCADOR
         capgross.load.image('Miniatura1', 'img/EricR.png');
         capgross.load.image('Miniatura2', 'img/JordiR.png');
+        capgross.load.image('Miniatura3', 'img/VictorR.png');
+        capgross.load.image('Miniatura4', 'img/AlexR.png');
         capgross.load.image('Marcador', 'img/Marcador.png');
         capgross.load.image('Largero', 'img/Largero.png');
         //PJ
@@ -58,10 +305,11 @@ var estado_princ = {
         capgross.load.physics('ballPhysycs', 'jsons/tolerancia1.json');
 
     },
+   
     
 
     create: function(){
-
+       
         //ACTIVAR P2 PHYSICS
         capgross.physics.startSystem(Phaser.Physics.P2JS);
         //ACTIVAR GRAVEDAD 
@@ -70,16 +318,34 @@ var estado_princ = {
         //BACKGROUND
         capgross.add.tileSprite(0, 0, 1074, 724, 'fondo');
 
-        //AFEGIM EL JUGADOR 1
-        personaje = capgross.add.sprite(1074/1.25 , 700, 'EricRightIMG');
+        //AFEGIM EL JUGADOR 2
+        if (jp2 == 'Jordi') {
+            personaje = capgross.add.sprite(1074/1.25 , 700, 'JordiRightIMG');
+        } else if (jp2 == 'Victor') {
+            personaje = capgross.add.sprite(1074/1.25 , 700, 'VictorRightIMG');
+        } else if (jp2 == 'Eric') {
+            personaje = capgross.add.sprite(1074/1.25 , 700, 'EricRightIMG');
+        } else if (jp2 == 'Alex') {
+            personaje = capgross.add.sprite(1074/1.25 , 700, 'AlexRightIMG');
+        }
+
+        
         // Enable physics, use "true" to enable debug drawing
         capgross.physics.p2.enable([personaje], true);
         personaje.body.clearShapes();
         personaje.body.loadPolygon("physicsRight", "JordiR");
         personaje.body.fixedRotation = true;
 
-        //AFEGIM EL JUGADOR 2
-        personaje2 = capgross.add.sprite(1074/5, 700, 'JordiLeftIMG');
+        //AFEGIM EL JUGADOR 1
+        if (p1 == 'Jordi') {
+            personaje2 = capgross.add.sprite(1074/5, 700, 'JordiLeftIMG');
+        } else if (p1 == 'Victor') {
+            personaje2 = capgross.add.sprite(1074/5, 700, 'VictorLeftIMG');
+        } else if (p1 == 'Eric') {
+            personaje2 = capgross.add.sprite(1074/5, 700, 'EricLeftIMG');
+        } else if (p1 == 'Alex') {
+            personaje2 = capgross.add.sprite(1074/5, 700, 'AlexLeftIMG');
+        }
         // Enable physics, use "true" to enable debug drawing
         capgross.physics.p2.enable([personaje2], true);
         personaje2.body.clearShapes();
@@ -138,9 +404,29 @@ var estado_princ = {
         puntos2 = 0;
 
         marcador = capgross.add.sprite(340, -50, 'Marcador');
-        marcador.scale.setTo(0.70)
-        miniatura1 = capgross.add.sprite(500, 52, 'Miniatura2');
-        miniatura2 = capgross.add.sprite(615, 52, 'Miniatura1');
+        marcador.scale.setTo(0.70);
+
+        if (p1 == 'Jordi') {
+            miniatura1 = capgross.add.sprite(500, 52, 'Miniatura2');
+        } else if (p1 == 'Eric') {
+            miniatura1 = capgross.add.sprite(500, 52, 'Miniatura1');
+        } else if (p1 == 'Victor') {
+            miniatura1 = capgross.add.sprite(500, 52, 'Miniatura3');
+        } else if (p1 == 'Alex') {
+            miniatura1 = capgross.add.sprite(500, 52, 'Miniatura4');
+        }
+
+        if (jp2 == 'Jordi') {
+            miniatura2 = capgross.add.sprite(615, 52, 'Miniatura2');
+        } else if (jp2 == 'Eric') {
+            miniatura2 = capgross.add.sprite(615, 52, 'Miniatura1');
+        } else if (jp2 == 'Victor') {
+            miniatura2 = capgross.add.sprite(615, 52, 'Miniatura3');
+        } else if (jp2 == 'Alex') {
+            miniatura2 = capgross.add.sprite(615, 52, 'Miniatura4');
+        }
+       
+       
         miniatura1.scale.setTo(-0.35,0.35);
         miniatura2.scale.setTo(0.35);
         txtPuntos1 = capgross.add.text(520, 50, "0", {font:"45px Open Sans", fill:"white"});
@@ -161,6 +447,9 @@ var estado_princ = {
         personaje.body.immovable = true; 
     
     ///
+     //SALIR
+     var salir = capgross.add.button(15,15,'salir',this.Salir,this);
+     salir.scale.setTo(0.15,0.15);
     },
     update: function(){ 
         
@@ -203,6 +492,8 @@ var estado_princ = {
              puntos2++;
              txtPuntos1.text = puntos1;
          }
+
+        
        /* if(bola.position.y > (capgross.height/2 +150) && bola.position.x >= 1053){
             puntos1++;
             txtPuntos1.text = puntos1;
@@ -218,11 +509,14 @@ var estado_princ = {
         personaje.body.immovable=true;
         personaje2.body.immovable=true;
 
+    },
+
+    Salir: function() {
+        this.state.start('Menu');
+        p1 = "";
+        jp2 = "";
     }
 };
-
-capgross.state.add('principal', estado_princ);
-capgross.state.start('principal');
 
 function destroySprite (sprite,sprite1,sprite2,sprite3) {
         sePuedeMarcar = false;
@@ -235,7 +529,11 @@ function destroySprite (sprite,sprite1,sprite2,sprite3) {
     }
 
 function SetMarcador() {
-    
+        var spriteMaterial = capgross.physics.p2.createMaterial('spriteMaterial');
+        var worldMaterial = capgross.physics.p2.createMaterial('worldMaterial');
+        var contactMaterial = capgross.physics.p2.createContactMaterial(spriteMaterial, worldMaterial, { restitution: 1.0 });
+        
+
         capgross.add.tween(gol).to( { alpha: 0 }, 1500, Phaser.Easing.Linear.None, true);
         txtPuntos1 = capgross.add.text(520, 50, puntos1, {font:"45px Open Sans", fill:"white"});
         txtPuntos2 = capgross.add.text(580, 50, puntos2, {font:"45px Open Sans", fill:"white"});
@@ -255,7 +553,11 @@ function SetMarcador() {
         bola.body.setCircle(21);
         bola.body.data.gravityScale = 0.3;
         
+        capgross.physics.p2.setWorldMaterial(worldMaterial);
+        bola.body.setMaterial(spriteMaterial);
+        
     }
+    
     
 //SE PUEDE SALTAR??
 
