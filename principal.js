@@ -529,11 +529,12 @@ function destroySprite (sprite,sprite1,sprite2,sprite3) {
     }
 
 function SetMarcador() {
+        //PARA QUE LA PELOTA BOTE
         var spriteMaterial = capgross.physics.p2.createMaterial('spriteMaterial');
         var worldMaterial = capgross.physics.p2.createMaterial('worldMaterial');
         var contactMaterial = capgross.physics.p2.createContactMaterial(spriteMaterial, worldMaterial, { restitution: 1.0 });
-        
-
+        capgross.physics.p2.setWorldMaterial(worldMaterial);
+    
         capgross.add.tween(gol).to( { alpha: 0 }, 1500, Phaser.Easing.Linear.None, true);
         txtPuntos1 = capgross.add.text(520, 50, puntos1, {font:"45px Open Sans", fill:"white"});
         txtPuntos2 = capgross.add.text(580, 50, puntos2, {font:"45px Open Sans", fill:"white"});
@@ -553,7 +554,6 @@ function SetMarcador() {
         bola.body.setCircle(21);
         bola.body.data.gravityScale = 0.3;
         
-        capgross.physics.p2.setWorldMaterial(worldMaterial);
         bola.body.setMaterial(spriteMaterial);
         
     }
